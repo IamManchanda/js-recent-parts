@@ -14,8 +14,9 @@ async function *fetchUrls(urls) {
   const resourceUrl = "https://jsonplaceholder.typicode.com";
   try {
     const users = await (await fetch(`${resourceUrl}/users`)).json(); 
+    const filteredOddUsers = users.filter(user => user.id % 2 === 1);
     const postsResources = [];
-    for (const user of users) {
+    for (const user of filteredOddUsers) {
       postsResources.push(`${resourceUrl}/posts?userId=${user.id}`);
     }
     for await (const response of fetchUrls(postsResources)) {
